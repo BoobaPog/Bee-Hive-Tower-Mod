@@ -1,20 +1,14 @@
+using BeeHiveTower.Displays.projectile;
 using BTD_Mod_Helper;
 using BTD_Mod_Helper.Api.Towers;
-using Il2CppAssets.Scripts.Models.Towers;
 using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Models.TowerSets;
-
-using BeeHiveTower.Displays.projectile;
-
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-
+using Il2CppAssets.Scripts.Models.TowerSets;
 using System.Collections.Generic;
 using System.Linq;
-
-using System;
-using System.IO;
 
 namespace BeeHiveTower
 {
@@ -27,18 +21,12 @@ namespace BeeHiveTower
         public override string Portrait => "BeeHive-Portrait";
         public override int Cost => 800;
 
-        public override int GetTowerIndex(List<TowerDetailsModel> towerSet)
-        {
-            return towerSet.First(model => model.towerId == TowerType.BeastHandler).towerIndex + 1;
-        }
         /// <summary>
-        public override int TopPathUpgrades => 1;
-        /// </summary>
+        //public override int TopPathUpgrades => 1;
+        // </summary>
         // public override int MiddlePathUpgrades => 5;
         // public override int BottomPathUpgrades => 5;
         public override string Description => "Realese furius bees at the Bloons";
-
-        // public override string DisplayName => "Don't need to override this, the default turns it into 'Card Monkey'"
 
         public override void ModifyBaseTowerModel(TowerModel towerModel)
         {
@@ -46,9 +34,8 @@ namespace BeeHiveTower
             towerModel.footprint = footprint;
             towerModel.AddBehavior(footprint);
 
-
             towerModel.range = 40;
-            //towerModel.AddBehavior(Game.instance.model.GetTowerFromId("TackShooter").GetAttackModel().Duplicate());
+
             var attackModel = towerModel.GetAttackModel();
             attackModel.range = towerModel.range;
             attackModel.name = "beeHive_attackModel_";
@@ -69,10 +56,15 @@ namespace BeeHiveTower
 
             projectile.AddBehavior(new TrackTargetModel("TrackTargetModel_", 1000f, false, false, 90f, false, 270f, false, true));
 
-            foreach (var attackModels in towerModel.GetAttackModels())
+            foreach (var behaviorItem in towerModel.behaviors)
             {
-                ModHelper.Msg<BeeHiveTowerMod>(attackModels.name);
+                ModHelper.Msg<BeeHiveTowerMod>(behaviorItem.name);
             }
+        }
+
+        public override int GetTowerIndex(List<TowerDetailsModel> towerSet)
+        {
+            return towerSet.First(model => model.towerId == TowerType.BeastHandler).towerIndex + 1;
         }
     }
 }
