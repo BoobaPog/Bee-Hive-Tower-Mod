@@ -67,7 +67,7 @@ namespace BeeHiveTower
             var TravelModel = new TravelStraitModel("TravelStraitModel_", 80, 2);
             projectile.AddBehavior(TravelModel);
 
-            projectile.AddBehavior(new TrackTargetModel("TrackTargetModel_", 1000f, false, false, 180f, false, 270f, false, true));
+            projectile.AddBehavior(new TrackTargetModel("TrackTargetModel_", 1000f, false, false, 90f, false, 270f, false, true));
 
             foreach (var attackModels in towerModel.GetAttackModels())
             {
