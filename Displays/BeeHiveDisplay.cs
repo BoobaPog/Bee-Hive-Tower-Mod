@@ -1,17 +1,18 @@
 ﻿using BTD_Mod_Helper.Api.Display;
+using BTD_Mod_Helper.Extensions;
 using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Unity;
 using Il2CppAssets.Scripts.Unity.Display;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 namespace BeeHiveTower.Displays
 {
-    public class BeeHiveDisplay : ModTowerDisplay<BeeHive>
+    public class BeeHiveBaseDisplay : ModTowerDisplay<BeeHive>
     {
-        public override string BaseDisplay => GetDisplay(TowerType.MonkeyVillage, 0, 0, 0);
+        public BeeHiveBaseDisplay()
+        {
+        }
+        public override string BaseDisplay => Game.instance.model.GetTower(TowerType.MonkeyVillage, 0, 0, 1).display.guidRef;
 
         public override bool UseForTower(int[] tiers)
         {
@@ -22,7 +23,13 @@ namespace BeeHiveTower.Displays
 
         public override void ModifyDisplayNode(UnityDisplayNode node)
         {
-            SetMeshTexture(node, "BeeHiveDisplay");
+            node.PrintInfo();
+            node.SaveMeshTexture();
+
+
+            SetMeshTexture(node, Name);
+            //var outLineColor = new Color(235f, 188f, 78f);
+            SetMeshOutlineColor(node, Color.yellow);
         }
     }
 }

@@ -1,0 +1,20 @@
+public class HoneyBank : Bank
+    {
+        public BankModel HoneyModel => bankModel;
+
+        public HoneyBank(string name, float capacity, float intrest, Il2CppAssets.Scripts.Utils.PrefabReference assetId, Il2CppAssets.Scripts.Utils.PrefabReference fullBankAssetId, float lifespan, bool autoCollect, int collectAnimation)
+        {
+            HoneyModel.name = name;
+            HoneyModel.capacity = capacity;
+            HoneyModel.interest = intrest;
+            HoneyModel.assetId = assetId;
+            HoneyModel.fullBankAssetId = fullBankAssetId;
+            HoneyModel.lifespan = lifespan;
+            HoneyModel.autoCollect = autoCollect;
+            HoneyModel.collectAnimation = collectAnimation;
+        }
+        public BankModel GetBankModel()
+        {
+            return HoneyModel;
+        }
+    }

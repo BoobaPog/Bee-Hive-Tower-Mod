@@ -7,12 +7,14 @@ namespace BeeHiveTower.Upgrades.TopPath
 {
     public class StingerDarts : ModUpgrade<BeeHive>
     {
-        public override int Path => TOP;
+        public override int Path => ModUpgrade.TOP;
         public override int Tier => 1;
         public override int Cost => 300; 
 
         public override string Description => "Slightly increased the damage each bee inflicts";
         public override string DisplayName => "Stinger Darts";
+
+        public override string Icon => "TopPath-Icon";
         public override void ApplyUpgrade(TowerModel tower)
         {
             tower.GetAttackModel().weapons[0].projectile.GetBehavior<DamageModel>().damage += 1;

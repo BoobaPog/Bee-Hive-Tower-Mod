@@ -1,0 +1,4 @@
+var displayRef = new Il2CppAssets.Scripts.Utils.PrefabReference(GetDisplayGUID<HornetCritDisplay>());
+var displayCata = new Il2CppAssets.Scripts.Models.GenericBehaviors.DisplayCategory();
+var HornetCrit = new Il2CppAssets.Scripts.Models.GenericBehaviors.DisplayModel("HornetCrit_", displayRef, 0, displayCata);
+var critHit = new CritMultiplierModel("BeeHive_CritMultiplierModel_", projdmg.damage * 2, 10, 10, HornetCrit, false);

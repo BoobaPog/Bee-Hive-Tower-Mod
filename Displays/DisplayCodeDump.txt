@@ -1,0 +1,5 @@
+﻿var modelThingy = node.GetRenderers(true);
+            foreach (var rend in modelThingy)
+            {
+                ModHelper.Msg<BeeHiveTowerMod>(rend.bounds.ToString());
+            }

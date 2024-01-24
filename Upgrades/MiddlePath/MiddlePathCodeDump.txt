@@ -1,0 +1,27 @@
+Stun
+var baseStun = Game.instance.model.GetTowerFromId("BombShooter-400").GetAttackModel().weapons[0].projectile.Duplicate();
+var stunBaseBehav = baseStun.GetBehavior<SlowModel>();
+var stunBaseMod = baseStun.GetBehavior<SlowModifierForTagModel>();
+
+proj.AddBehavior(stunBaseBehav);
+proj.AddBehavior(stunBaseMod);
+
+
+Ability
+var patFustyAbility = Game.instance.model.GetTowerFromId("PatFusty 3").GetBehavior<AbilityModel>().Duplicate();
+patFustyAbility.displayName = "Angry Hive";
+patFustyAbility.description = "All bee hive tower swarms become more agile, fly faster, and gain one pierce while in range of the Wasp nest.";
+patFustyAbility.name = "BeeHive_Ability_1";
+patFustyAbility._name = "BeeHive_Ability_1";
+var PatDamageBuff = patFustyAbility.GetBehavior<ActivateTowerDamageSupportZoneModel>().Duplicate();
+
+var towerFilterTHing = new TowerFilterModel("BeeHive");
+var AbilityFilterModel = new Il2CppReferenceArray<TowerFilterModel>(1);
+AbilityFilterModel[0] = towerFilterTHing;
+
+var DamageBuff = new ActivateTowerDamageSupportZoneModel("BeeHive_damage_buff_", "BeeHive:WaspStormDamage", true, 1f, tower.range, 9999999.0f, true, 30.0f, PatDamageBuff.displayModel.Duplicate(), PatDamageBuff.buffLocsName, PatDamageBuff.buffIconName, 0f, false, true, AbilityFilterModel);
+var PierceBuff = new ActivatePierceSupportZoneModel("BeeHive_damage_Pierce_", "BeeHive:WaspStormPierce", true, 1, tower.range, 9999999.0f, true, 30.0f, null, null, null, AbilityFilterModel, true);
+patFustyAbility.RemoveBehavior<ActivateTowerDamageSupportZoneModel>();
+patFustyAbility.AddBehavior(DamageBuff);
+patFustyAbility.AddBehavior(PierceBuff);
+tower.AddBehavior(patFustyAbility);
