@@ -35,7 +35,7 @@ namespace BeeHiveTower.Upgrades.TopPath
             var baseCritModel = Game.instance.model.GetTowerFromId("DartMonkey-005").Duplicate().GetWeapon();
             var textOnHit = baseCritModel.projectile.GetBehavior<ShowTextOnHitModel>();
 
-            var Adora = Game.instance.model.GetHeroWithNameAndLevel("Adora", 3).Duplicate();
+            var Adora = Game.instance.model.GetHeroWithNameAndLevel("Adora", 20).Duplicate();
             var CritModel = Adora.GetBehavior<Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities.AbilityModel>().GetBehavior<LongArmOfLightModel>().Duplicate();
             var CritProjectile = CritModel.projectileDisplay;
             var displayRef = new Il2CppAssets.Scripts.Utils.PrefabReference(CritProjectile.assetPath.GUID);
