@@ -98,7 +98,7 @@ namespace BeeHiveTower
                         if (2 < tier)
                         {
                             var ammount = multi * (tier - 2);
-                            ModHelper.Msg<BeeHiveTowerMod>(ammount);
+                            //ModHelper.Msg<BeeHiveTowerMod>(ammount);
                             InGame.instance.AddCash(ammount);
                             tower.cashEarned += ((long)(ammount));
                         }
