@@ -1,18 +1,23 @@
 using BeeHiveTower.Displays.projectile;
+using BeeHiveTower.Upgrades;
 using BTD_Mod_Helper;
 using BTD_Mod_Helper.Api.Towers;
 using BTD_Mod_Helper.Extensions;
 using HarmonyLib;
+using Il2Cpp;
 using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 using Il2CppAssets.Scripts.Models.TowerSets;
 using Il2CppAssets.Scripts.Simulation.Bloons;
+using Il2CppAssets.Scripts.Simulation.Towers.Projectiles;
 using Il2CppAssets.Scripts.Unity.UI_New.InGame;
+using Octokit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 namespace BeeHiveTower
 {
     public class BeeHive : ModTower
@@ -27,7 +32,7 @@ namespace BeeHiveTower
         public override int MiddlePathUpgrades => 5;
         public override int BottomPathUpgrades => 5;
         // I am still working on the Paragon
-        public override ParagonMode ParagonMode => ParagonMode.Base000;
+        public override ParagonMode ParagonMode => ParagonMode.Base555;
 
         public override string Description => "Realese furius bees at the Bloons";
         public override string DisplayName => "Bee Hive";
@@ -74,18 +79,33 @@ namespace BeeHiveTower
     internal static class Bloon_Damage
     {
         [HarmonyPrefix]
-        private static void Prefix(Bloon __instance, Il2CppAssets.Scripts.Simulation.Towers.Tower tower)
+        private static void Prefix(Bloon __instance, float totalAmount, Projectile projectile, bool distributeToChildren, bool overrideDistributeBlocker, bool createEffect, Il2CppAssets.Scripts.Simulation.Towers.Tower tower, BloonProperties immuneBloonProperties = BloonProperties.None, bool canDestroyProjectile = true, bool ignoreNonTargetable = false, bool blockSpawnChildren = false, bool ignoreInvunerable = false)
         {
-            var towerMod = tower.towerModel;
-            int addCash = (new Random()).Next(1, 3);
-
-            if (towerMod.name.Contains("BeeHiveTower-BeeHive") && (addCash == 1))
+            //__instance,
+            //totalAmount, projectile, distributeToChildren, overrideDistributeBlocker, createEffect, tower, immuneBloonProperties, canDestroyProjectile, ignoreNonTargetable, blockSpawnChildren, ignoreInvunerable
+            if (!(tower is null))
             {
-                if (towerMod.name.EndsWith("3")) { InGame.instance.AddCash(1.0); tower.cashEarned += 1; }
-                if (towerMod.name.EndsWith("4")) { InGame.instance.AddCash(2.0); tower.cashEarned += 2; }
-                if (towerMod.name.EndsWith("5")) { InGame.instance.AddCash(4.0); tower.cashEarned += 4; }
-                if (towerMod.isParagon) { InGame.instance.AddCash(10.0); tower.cashEarned += 10; }
+                var towerMod = tower.towerModel;
+                string name = towerMod.name;
+                int tier;
+                if (name.Contains("BeeHiveTower-BeeHive") && (new Random()).Next(1, 3) == 1)
+                {
+                    var multi = 1 + (float)(Math.Floor(totalAmount * 0.1f));
+
+                    if (towerMod.isParagon) { InGame.instance.AddCash(10.0 * multi); tower.cashEarned += ((long)(10 * multi)); }
+                    else if (int.TryParse(name.Last().ToString(), out tier))
+                    {
+                        if (2 < tier)
+                        {
+                            var ammount = multi * (tier - 2);
+                            ModHelper.Msg<BeeHiveTowerMod>(ammount);
+                            InGame.instance.AddCash(ammount);
+                            tower.cashEarned += ((long)(ammount));
+                        }
+                    }
+                }
             }
+
         }
     }
 }
